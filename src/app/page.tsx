@@ -1,30 +1,103 @@
-import Container from "@/app/_components/container";
-import { HeroPost } from "@/app/_components/hero-post";
-import { Intro } from "@/app/_components/intro";
-import { MoreStories } from "@/app/_components/more-stories";
-import { getAllPosts } from "@/lib/api";
+'use client';
 
-export default function Index() {
-  const allPosts = getAllPosts();
+import { useEffect, useState } from 'react';
+import { initializeApp } from 'firebase/app';
+import { getFirestore, collection, getDocs } from 'firebase/firestore';
+import { firebaseConfig } from './_components/firebaseConfig';
+import Link from 'next/link';
 
-  const heroPost = allPosts[0];
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-  const morePosts = allPosts.slice(1);
+type Ad = {
+  id: string;
+  title: string;
+  description: string;
+  price: number;
+  category: string;
+  location: string;
+  phone: string;
+  imageUrl: string;
+};
+
+export default function AdListPage() {
+  const [ads, setAds] = useState<Ad[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchAds = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, 'ads'));
+        const adsData: Ad[] = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        })) as Ad[];
+
+        setAds(adsData);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching ads:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchAds();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-lg text-gray-700">
+        Loading ads...
+      </div>
+    );
+  }
+
+  if (ads.length === 0) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-lg text-gray-600">
+        No ads found.
+      </div>
+    );
+  }
 
   return (
-    <main>
-      <Container>
-        <Intro />
-        <HeroPost
-          title={heroPost.title}
-          coverImage={heroPost.coverImage}
-          date={heroPost.date}
-          author={heroPost.author}
-          slug={heroPost.slug}
-          excerpt={heroPost.excerpt}
-        />
-        {morePosts.length > 0 && <MoreStories posts={morePosts} />}
-      </Container>
-    </main>
+    <div className="min-h-screen bg-gray-50 py-10 px-4">
+      <h1 className="text-2xl font-bold text-center mb-6">Latest Ads</h1>
+
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {ads.map((ad) => (
+          <div
+            key={ad.id}
+            className="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-200"
+          >
+            <img
+              src={ad.imageUrl}
+              alt={ad.title}
+              className="w-full h-48 object-cover"
+            />
+            <div className="p-4">
+              <h2 className="text-lg font-semibold mb-1">{ad.title}</h2>
+              <p className="text-sm text-gray-600 line-clamp-2 mb-2">
+                {ad.description}
+              </p>
+              <div className="text-indigo-600 font-bold mb-1">₹ {ad.price}</div>
+              <div className="text-xs text-gray-500">
+                📍 {ad.location} • 📞 {ad.phone}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+
+
+    <nav className="flex gap-4 p-4 bg-gray-100 border-b">
+      <Link href="/">Home</Link>
+      <Link href="/AboutUs">About Us</Link>
+      <Link href="/PostAd">Post Ad</Link>
+      <Link href="/Gsign">Google Sign</Link>
+    </nav>
+
+    </div>
   );
 }
