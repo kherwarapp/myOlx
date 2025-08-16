@@ -91,7 +91,8 @@ const CATEGORIES = [
 ];
 
 function formatINR(n: string | number | bigint) {
-  return new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(n);
+  return new Intl.NumberFormat("en-IN",
+     { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(n);
 }
 
 function timeAgo(dateStr: string | number | Date) {
