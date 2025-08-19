@@ -3,7 +3,7 @@ import React, { useMemo, useState } from "react";
 import { Search, MapPin, IndianRupee, Filter, X, ListFilter, Tag, Clock } from "lucide-react";
 
 
-// --- Mock Data (replace with API later) ---
+// --- Mock Data (replace with API ladfdf ter) ---
 const MOCK_POSTS = [
   {
     id: "car-001",

@@ -30,4 +30,8 @@
     "tailwindcss": "^3.4.4",
     "typescript": "^5.5.2"
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> bf578b8 (new instance in download forlder)

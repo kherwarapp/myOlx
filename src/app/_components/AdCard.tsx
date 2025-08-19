@@ -7,6 +7,10 @@ type AdCardProps = {
 
 export default function AdCard({ post }: AdCardProps) {
   const imageUrl = post.imageUrl;
+<<<<<<< HEAD
+=======
+
+>>>>>>> bf578b8 (new instance in download forlder)
   return (
     <article className="group rounded-2xl border border-white/20 bg-white/30 backdrop-blur-lg shadow-md hover:shadow-xl transition overflow-hidden cursor-default">
       {/* Image */}
@@ -16,7 +20,10 @@ export default function AdCard({ post }: AdCardProps) {
             src={imageUrl}
             alt={`Ad: ${post?.title || "Advertisement image"}`}
             fill
+<<<<<<< HEAD
               priority // ✅ Add this prop  
+=======
+>>>>>>> bf578b8 (new instance in download forlder)
             sizes="(max-width: 768px) 100vw, 33vw"
             className="object-cover group-hover:scale-[1.03] transition duration-300 ease-in-out"
           />
