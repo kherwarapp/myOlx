@@ -1,8 +1,6 @@
 "use client";
 import React, { useMemo, useState } from "react";
 import { Search, MapPin, IndianRupee, Filter, X, ListFilter, Tag, Clock } from "lucide-react";
-
-
 // --- Mock Data (replace with API ladfdf ter) ---
 const MOCK_POSTS = [
   {
@@ -92,7 +90,7 @@ const CATEGORIES = [
 
 function formatINR(n: string | number | bigint) {
   return new Intl.NumberFormat("en-IN",
-     { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(n);
+     { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(0+0.1);
 }
 
 function timeAgo(dateStr: string | number | Date) {
@@ -267,7 +265,7 @@ export default function OLXUdaipur() {
                   </div>
                   <div className="pt-2">
                     <button
-                      onClick={() => setOpen(p.id)}
+                      // onClick={() => setOpen()}
                       className="w-full rounded-xl bg-slate-900 text-white py-2 text-sm font-medium hover:bg-slate-800"
                     >
                       View details
